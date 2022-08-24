@@ -1,6 +1,5 @@
 package com.zldx.dao;
 
-import com.zldx.pojo.Category;
 import com.zldx.pojo.Record;
 
 import java.sql.SQLException;
