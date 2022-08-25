@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <style>
+        html {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            background: #fff;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            height: 60%;
+        }
+
+
+        .content .login {
+            width: 350px;
+            height: 350px;
+            background-color: rgb(194, 248, 248);
+            opacity: 0.6;
+            position: relative;
+            top: 0px;
+            left: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login .login-title {
+            text-align: center;
+        }
+
+
+        .login .login-1 .login-2,
+        .login .login-1 .login-3,
+        .login .login-1 .login-6 {
+            height: 50px;
+            width: 350px;
+            position: relative;
+        }
+
+        .login .login-1 .login-5 {
+            height: 50px;
+            width: 350px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        #username,
+        #password {
+            height: 42px;
+            width: 250px;
+            outline: none;
+            font-size: 14px;
+            padding-left: 50px;
+            top: 0;
+            left: 50px;
+        }
+
+        .login-6 .drag {
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #e8e8e8;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .login-6 .bg {
+            width: 40px;
+            height: 100%;
+            position: absolute;
+            background-color: #b3bec4;
+        }
+
+        .login-6 .text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            user-select: none;
+        }
+
+        .login-6 .btn {
+            width: 40px;
+            height: 38px;
+            position: absolute;
+            border: 1px solid #ccc;
+            cursor: move;
+            font-family: "宋体";
+            text-align: center;
+            background-color: #fff;
+            user-select: none;
+            color: #666;
+        }
+
+        #register {
+            height: 40px;
+            width: 100px;
+            right: 25px;
+            position: relative;
+        }
+
+        #login-in {
+            height: 40px;
+            width: 100px;
+            left: 25px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+<div class="content">
+    <div class="login">
+        <form action="">
+            <div class="login-title">
+                <h2>欢迎登录</h2>
+            </div>
+            <div class="login-1">
+                <div class="login-2"><input type="text" name="username" id="username" placeholder="账号名/手机号"></div>
+                <div class="login-3"><input type="password" name="password" id="password" placeholder="密码"></div>
+                <div class="login-4">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">记住我</label>
+                </div>
+                <div class="login-6">
+                    <div class="drag">
+                        <div class="bg"></div>
+                        <div class="text" onselectstart="return false;">请拖动滑块解锁</div>
+                        <div class="btn">&gt;&gt;</div>
+                    </div>
+                </div>
+                <div class="login-5"><button id="login-in" type="submit">登录</button>
+                    <button id="register">注册</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<canvas id="canvas"></canvas>
+<script src="./js/login.js"></script>
+
+
+</body>
+
+</html>

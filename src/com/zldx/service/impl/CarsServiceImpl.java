@@ -1,9 +1,15 @@
 package com.zldx.service.impl;
 
+import com.zldx.dao.BrandDao;
 import com.zldx.dao.CarDao;
+import com.zldx.dao.CategoryDao;
+import com.zldx.dao.impl.BrandDaoImpl;
 import com.zldx.dao.impl.CarDaoImpl;
+import com.zldx.dao.impl.CateDaoImpl;
+import com.zldx.pojo.Brand;
 import com.zldx.pojo.Car;
-import com.zldx.pojo.PageBean;
+import com.zldx.pojo.Category;
+import com.zldx.pojo.ResultData;
 import com.zldx.service.CarsService;
 import com.zldx.utils.JDBCUtils;
 
@@ -12,74 +18,79 @@ import java.util.List;
 
 public class CarsServiceImpl implements CarsService {
     private CarDao carDao = new CarDaoImpl();
-    @Override
-    public List<Car> selectAll() {
-        try {
-            return carDao.selectAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private BrandDao brandDao = new BrandDaoImpl();
+    private CategoryDao categoryDao =new CateDaoImpl();
+
 
     @Override
-    public int insertCar(Car car) {
+    public ResultData selectAll(String pageNum, String pageSize) {
+        try {
+            List<Car> carList = carDao.selectAll(Integer.parseInt(pageNum),Integer.parseInt(pageSize));
+           if (carList !=null&& carList.size()>0){
+               long count = carDao.selectCount();
+               for (Car car : carList) {
+                   Brand brand = brandDao.selectAll(car.getBrand_id());
+                   car.setBrand(brand);
+                   Category category = categoryDao.selectAll(car.getCategory_id());
+                   car.setCategory(category);
+               }
+               return new ResultData<>(0,"查询成功",carList,count);
+           }else {
+               return new ResultData<>(100,"暂无数据");
+           }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ResultData<>(100,"查询失败");
+    }
+
+
+
+    @Override
+    public ResultData insertCar(Car car) {
         try {
             JDBCUtils.begin();
             int count = carDao.insertCar(car);
+            if (count>0){
+                JDBCUtils.commit();
+                return new ResultData(0,"添加成功");
+            }else {
             JDBCUtils.commit();
-            return count;
+                return new ResultData(100,"添加失败");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             JDBCUtils.rollback();
+            return new ResultData<>(100, "添加出错了");
         }
-        return 0;
+
     }
 
     @Override
-    public int updateCar(Car car) {
-        try {
-            JDBCUtils.begin();
-            int count = carDao.updateCar(car);
-            JDBCUtils.commit();
-            return count;
-        }catch (SQLException e) {
-            e.printStackTrace();
-            JDBCUtils.rollback();
-        }
-        return 0;
+    public ResultData selectCarByCid(String cate_id) {
+        return getResultData(cate_id);
     }
 
     @Override
-    public PageBean selectPage(String pNum, String pSize) {
-        //处理参数
-        int pageNum =1;//默认参数
-        if (pNum!=null){
-            pageNum = Integer.parseInt(pNum);
-        }
-        int pageSize =3;
-        if(pSize != null){
-            pageSize = Integer.parseInt(pSize);
-        }
-
-        try {
-            List<Car> carList = carDao.selectPage(pageNum,pageSize);
-            int totalSize = carDao.selectCount();
-            //页数满一页？不满就只有一页
-            int totalPage = totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
-
-            //封装分页查询的数据结果
-            PageBean pageBean = new PageBean();
-            pageBean.setTotalSize(totalSize);
-            pageBean.setTotalPages(totalPage);
-            pageBean.setPageSize(pageSize);
-            pageBean.setPageNum(pageNum);
-            pageBean.setData(carList);
-            return pageBean;
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ResultData selectCarByBid(String brand_id) {
+        return getResultData(brand_id);
     }
+
+    public ResultData getResultData(String brand_id) {
+        if (brand_id!=null){
+            try {
+                List<Car> carList = carDao.selectByCateId(Integer.parseInt(brand_id));
+                if (carList!=null&&carList.size()>0){
+                    return new ResultData(0,"按cate查询成功",carList);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return new ResultData(100,"失败");
+    }
+
+
 }

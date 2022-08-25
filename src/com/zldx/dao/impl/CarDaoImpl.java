@@ -12,10 +12,11 @@ import java.util.List;
 
 public class CarDaoImpl implements CarDao {
     @Override
-    public List<Car> selectAll() throws SQLException {
+    public List<Car> selectAll(int pageNum,int pageSize) throws SQLException {
         QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
-        String sql ="select *from t_car";
-        return qr.query(sql,new BeanListHandler<>(Car.class));
+        Object[] args = {(pageNum-1)*pageSize,pageSize};
+        String sql ="select * from t_car limit ?,?";
+        return qr.query(sql,new BeanListHandler<>(Car.class),args);
     }
 
     @Override
@@ -39,18 +40,25 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public List<Car> selectPage(int pageNum, int pageSize) throws SQLException {
-        //按每页pageSize条数据，查询第pageNum页数据
-        QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
-        Object[] args={(pageNum-1)*pageSize,pageSize};
-        return qr.query("select * from t_car limit ?,?",new BeanListHandler<>(Car.class),args);
-    }
-
-    @Override
     public int selectCount() throws SQLException {
         QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
         String sql = "select count(*) from t_car";
         return qr.query(sql,new ScalarHandler<Long>()).intValue();
 
+    }
+
+    @Override
+    public List<Car> selectByCateId(int category_id) throws SQLException {
+        QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
+        String sql ="select * from t_car where category_id = ?";
+        return qr.query(sql,new BeanListHandler<>(Car.class),category_id);
+
+    }
+
+    @Override
+    public List<Car> selectByBrandId(int brand_id) throws SQLException {
+        QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
+        String sql ="select * from t_car where brand_id = ?";
+        return qr.query(sql,new BeanListHandler<>(Car.class),brand_id);
     }
 }

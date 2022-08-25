@@ -22,6 +22,10 @@ public class Car {
 
     private String image;
 
+    private Category category;
+
+    private Brand brand;
+
     public Car(Integer id, String car_number, Integer brand_id, String model, String color, Integer category_id, String t_comments, Double price, Double rent, Integer status, Integer useable) {
         this.id = id;
         this.car_number = car_number;

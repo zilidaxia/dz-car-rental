@@ -1,17 +1,20 @@
 package com.zldx.service;
 
 import com.zldx.pojo.Car;
-import com.zldx.pojo.PageBean;
+import com.zldx.pojo.ResultData;
 
 import java.util.List;
 
 public interface CarsService {
-    //管理员查看汽车信息
-    List<Car> selectAll();
+    //管理员查看所有汽车信息
+
+    ResultData selectAll(String pageNum, String pageSize);
+
     //管理员添加汽车
-    int insertCar(Car car);
+    ResultData insertCar(Car car);
     //管理员修改汽车信息
-    int updateCar(Car car);
+    ResultData selectCarByCid(String cate_id);
+    ResultData selectCarByBid(String brand_id);
+
     //分页查询
-    PageBean selectPage(String pNum, String pSize);
 }

@@ -25,8 +25,17 @@ public class LoginServlet extends HttpServlet {
         //1、处理请求
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        String remember = req.getParameter("remember");
-
+        String code = req.getParameter("code");
+        String remember = req.getParameter("rememberMe");
+        //验证码
+        String text = (String) req.getSession().getAttribute("text");
+        if(code == null || !code.equalsIgnoreCase(text)){
+            ResultData resultData = new ResultData(100,"验证码不正确");
+            //3、做出响应
+            String json = JSONUtils.objToString(resultData);
+            resp.getWriter().write(json);
+            return;
+        }
 
         //2、调用业务层登录确定
         LoginService loginimp = new LoginImpl();

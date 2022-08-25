@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CarDao {
-    List<Car> selectAll() throws SQLException;
+    List<Car> selectAll(int pageNum,int pageSize) throws SQLException;
 
     int deleteCar(int id) throws SQLException;
 
@@ -14,9 +14,10 @@ public interface CarDao {
 
     int insertCar(Car car) throws SQLException;
 
-    List<Car> selectPage(int pageNum,int pageSize) throws SQLException;
-
     int selectCount() throws SQLException;
+
+    List<Car> selectByCateId(int category_id)throws SQLException;
+    List<Car> selectByBrandId(int brand_id)throws SQLException;
 
 
 }
