@@ -1,87 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title></title>
     <!-- 引入LayUICSS -->
-    <link href="layui/css/layui.css" rel="stylesheet"/>
+    <link href="layui/css/layui.css" rel="stylesheet" />
     <!-- 引入LayUIJS -->
     <script src="layui/layui.js"></script>
 </head>
 <body>
-<form class="layui-form" action="">
-    <div class="layui-form-item">
-        <label class="layui-form-label">输入框</label>
-        <div class="layui-input-block">
-            <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码框</label>
-        <div class="layui-input-inline">
-            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">辅助文字</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">选择框</label>
-        <div class="layui-input-block">
-            <select name="city" lay-verify="required">
-                <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
-            </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">复选框</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="like[write]" title="写作">
-            <input type="checkbox" name="like[read]" title="阅读" checked>
-            <input type="checkbox" name="like[dai]" title="发呆">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">开关</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="switch" lay-skin="switch">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">单选框</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="男" title="男">
-            <input type="radio" name="sex" value="女" title="女" checked>
-        </div>
-    </div>
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">文本域</label>
-        <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
-</form>
+<div class="layui-container"  style="margin: 30px 10px">
+    <form class="layui-form" lay-filter="carsForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="id">编号</label>
+            <div class="layui-input-inline">
+                <input id="id" type="text" name="id"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
 
-<script>
-    //Demo
-    layui.use('form', function(){
-        var form = layui.form;
+            <label class="layui-form-label">车牌</label>
+            <div class="layui-input-inline">
+                <input type="text" name="car_number" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
 
-        //提交
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
-    });
-</script>
+        <div class="layui-form-item">
+            <label class="layui-form-label">品牌</label>
+            <div class="layui-input-inline">
+                <select name="brand" id="brand">
+                </select>
+            </div>
+            <label class="layui-form-label">model</label>
+            <div class="layui-input-inline">
+                <select name="model" id="model">
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="color">颜色</label>
+            <div class="layui-input-inline">
+                <input id="color" type="text" name="color"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+            <label class="layui-form-label">类别</label>
+            <div class="layui-input-inline">
+                <select name="category" id="category">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline">
+                <input type="text" name="t_comments"   required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-inline">
+                <input type="text" name="price"   required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+            <label class="layui-form-label">租价/天</label>
+            <div class="layui-input-inline">
+                <input type="text" name="rent" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">汽车状态</label>
+            <div class="layui-input-inline">
+                <select name="status" id="status">
+                </select>
+            </div>
+            <label class="layui-form-label">上架状态</label>
+            <div class="layui-input-inline">
+                <select name="useable" id="useable">
+                </select>
+            </div>
+        </div>
+
+
+        <input type="hidden" name="image" id="image">
+        <div class="layui-form-item">
+            <label class="layui-form-label">汽车图片</label>
+            <div class="layui-input-inline">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test2">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="demo1" width="100px" height="100px">
+                        <p id="demoText"></p>
+                    </div>
+                    <div style="width: 95px;">
+                        <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="demo">
+                            <div class="layui-progress-bar" lay-percent=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">添加汽车</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        layui.use(['laydate','upload','form','element', 'layer','jquery'],function(){
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            var form = layui.form;
+            var element = layui.element;
+            var layer = layui.layer;
+            var $ = layui.jquery;
+
+
+            //进入页面就要查询所有的部门信息
+            // $.ajax({
+            //     url:'/deptAll.do',
+            //     success:function (res){
+            //         if(res.code == 0) {
+            //             var deptList = res.data;
+            //             console.log(deptList);
+            //             for (var i = 0; i < deptList.length; i++) {
+            //                 var dept = deptList[i];
+            //                 $("#deptno").append(`<option value="${dept.deptno}">${dept.dname}</option>`)
+            //             }
+            //             //当查询部门成功之后默认查询第一个部门的经理
+            //             $.ajax({
+            //                 url:'/empDept.do',
+            //                 data:{
+            //                     deptno:deptList[0].deptno
+            //                 },
+            //                 success:function (res){
+            //                     var empList = res.data;
+            //                     console.log(empList);
+            //                     for (var i = 0; i < empList.length; i++) {
+            //                         var emp = empList[i];
+            //                         $("#mgr").append(`<option value="${emp.empno}">${emp.ename}</option>`)
+            //                     }
+            //                     form.render();
+            //                 }
+            //             })
+            //         }else{
+            //             $("#deptno").append(`<option>暂无部门信息</option>`)
+            //         }
+            //         //当手动添加完数据之后就重新渲染表单
+            //         form.render();
+            //     }
+            // })
+            //
+            //
+            //
+            //
+            // //监听表单提交
+            // form.on('submit(demo1)', function(data){
+            //     console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            //     var empData = data.field;
+            //     //从json对象中删除file字段
+            //     delete empData.file;
+            //     //发送Ajax异步请求
+            //     $.ajax({
+            //         url:'/empAdd.do',
+            //         data:{
+            //             emp:JSON.stringify(empData)
+            //         },
+            //         success:function (res){
+            //             if(res.code == 0){
+            //                 layer.msg(res.msg);
+            //                 //关闭弹出层
+            //                 //当你在iframe页面关闭自身时
+            //                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            //                 parent.layer.close(index); //再执行关闭
+            //             }else{
+            //                 layer.msg(res.msg);
+            //             }
+            //         }
+            //     })
+            //     return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            // });
+
+
+            //常规使用 - 普通图片上传
+            var uploadInst = upload.render({
+                elem: '#test2'
+                ,url: '/upload.do' //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+
+                    element.progress('demo', '0%'); //进度条复位
+                    layer.msg('上传中', {icon: 16, time: 0});
+                }
+                ,done: function(res){ //上传完成之后回调
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功的一些操作
+                    //将服务器返回的图片地址保存到表单中的隐藏域当中，到时候会随着表单一起提交到后端
+                    $("#image").val(res.data);
+                    //……
+                    $('#demoText').html(''); //置空上传失败的状态
+                }
+                ,error: function(){
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
+                }
+                //进度条
+                ,progress: function(n, elem, e){
+                    element.progress('demo', n + '%'); //可配合 layui 进度条元素使用
+                    if(n == 100){
+                        layer.msg('上传完毕', {icon: 1});
+                    }
+                }
+            });
+
+
+            laydate.render({
+                elem: '#test1'
+            });
+        })
+
+
+    </script>
+
+
+</div>
 </body>
 </html>

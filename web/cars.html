@@ -36,7 +36,7 @@
         table.render({
             elem: '#demo',//指定原始表格元素选择器
             url: '/Cars.do' //后端数据的请求地址
-            , height: 600 //容器高度
+            , height: 1000 //容器高度
             , toolbar: '#toolbarDemo'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'},
@@ -45,14 +45,13 @@
                 , {
                     field: 'image', title: '图片', width: 120, templet: function (cars) {
                         if (cars.image) {
-                            return `<img src='img/${cars.image}' width='100px' height='100px'>`
+                            return `<img src='/img/${cars.image}' width='100' height='100'>`
                         } else {
-                            return `<img src='img/8.jpg' width='100px' height='100px'>`
+                            return `<img src='/img/car0.jpg' width='100' height='100'>`
                         }
                     }
                 }
                 , {field: 'car_number', title: '车牌', width: 120}
-                , {field: 'brand_id', title: '品牌编号', width: 100}
                 , {
                     field: 'brand', title: '品牌', width: 70, templet: function (car) {
                         return car.brand.name;
@@ -60,14 +59,13 @@
                 }
                 , {field: 'model', title: 'model', width: 100}
                 , {field: 'color', title: '颜色', width: 100}
-                , {field: 'category_id', title: '类别编号', width: 100, sort: true}
                 , {
                     field: 'category', title: '类别', width: 100, templet: function (car) {
                         return car.category.name;
                     }
                 }
                 , {field: 't_comments', title: '备注', width: 100}
-                , {field: 'price', title: '价格', width: 100, sort: true},
+                , {field: 'price', title: '价格', width: 100, sort: true}
                 , {field: 'rent', title: '租价/天', width: 100, sort: true}
                 , {field: 'status', title: '汽车状态', width: 100}
                 , {field: 'useable', title: '上架状态', width: 100}

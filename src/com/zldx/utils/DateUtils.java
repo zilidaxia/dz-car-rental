@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtils {
+
+    public static String createId(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        return sdf.format(new Date());
+    }
     public static Date parseDate(String date, String pattern){
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
