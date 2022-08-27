@@ -31,7 +31,7 @@ public class CarsServiceImpl implements CarsService {
                for (Car car : carList) {
                    Brand brand = brandDao.selectAll(car.getBrand_id());
                    car.setBrand(brand);
-                   Category category = categoryDao.selectAll(car.getCategory_id());
+                   Category category = categoryDao.selectOne(car.getCategory_id());
                    car.setCategory(category);
                }
                return new ResultData<>(0,"查询成功",carList,count);
@@ -51,6 +51,14 @@ public class CarsServiceImpl implements CarsService {
         try {
             JDBCUtils.begin();
             int count = carDao.insertCar(car);
+            if (selectCarByBid(car.getBrand_id().toString())==null){
+                int i = brandDao.insertOne(car.getBrand().getName());
+                if (i>0){
+                    return new ResultData(0,"添加品牌成功");
+                }else {
+                    return new ResultData(100,"添加品牌失败");
+                }
+            }
             if (count>0){
                 JDBCUtils.commit();
                 return new ResultData(0,"添加成功");
@@ -58,7 +66,6 @@ public class CarsServiceImpl implements CarsService {
             JDBCUtils.commit();
                 return new ResultData(100,"添加失败");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             JDBCUtils.rollback();
@@ -71,6 +78,18 @@ public class CarsServiceImpl implements CarsService {
     public ResultData selectCarByCid(String cate_id) {
         return getResultData(cate_id);
     }
+
+    @Override
+    public ResultData selectAllCate() {
+        try {
+            List<Category> categories = categoryDao.selectAll();
+            return new ResultData(0,"查询类别成功",categories);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ResultData<>(100,"查询类别出错");
+    }
+
 
     @Override
     public ResultData selectCarByBid(String brand_id) {
@@ -89,7 +108,7 @@ public class CarsServiceImpl implements CarsService {
             }
 
         }
-        return new ResultData(100,"失败");
+        return new ResultData(100,"按cateid查询失败");
     }
 
 

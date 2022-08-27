@@ -14,4 +14,10 @@ public class BrandDaoImpl implements BrandDao {
         QueryRunner qr = new QueryRunner(JDBCUtils.getDataSource());
         return qr.query("select * from t_brand where id =?",new BeanHandler<>(Brand.class),id);
     }
+
+    @Override
+    public int insertOne(String name) throws SQLException {
+        QueryRunner qr = new QueryRunner();
+        return qr.update(JDBCUtils.getConnection(),"insert into t_brand values (null,?)",name);
+    }
 }

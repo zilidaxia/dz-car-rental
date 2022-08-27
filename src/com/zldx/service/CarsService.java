@@ -14,7 +14,10 @@ public interface CarsService {
     ResultData insertCar(Car car);
     //管理员修改汽车信息
     ResultData selectCarByCid(String cate_id);
+    ResultData selectAllCate();
     ResultData selectCarByBid(String brand_id);
+
+
 
     //分页查询
 }

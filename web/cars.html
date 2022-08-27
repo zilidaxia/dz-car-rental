@@ -8,7 +8,10 @@
     <!-- 引入LayUIJS -->
     <script src="layui/layui.js"></script>
     <style>
-
+        td .layui-table-cell{
+            height: 100px;
+            line-height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +39,7 @@
         table.render({
             elem: '#demo',//指定原始表格元素选择器
             url: '/Cars.do' //后端数据的请求地址
-            , height: 1000 //容器高度
+            , height: 500 //容器高度
             , toolbar: '#toolbarDemo'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'},
@@ -45,9 +48,9 @@
                 , {
                     field: 'image', title: '图片', width: 120, templet: function (cars) {
                         if (cars.image) {
-                            return `<img src='/img/${cars.image}' width='100' height='100'>`
+                            return `<img src='/img/${cars.image}' width='100px' height='100px'>`
                         } else {
-                            return `<img src='/img/car0.jpg' width='100' height='100'>`
+                            return `<img src='/img/car0.jpg' width='100px' height='100px'>`
                         }
                     }
                 }

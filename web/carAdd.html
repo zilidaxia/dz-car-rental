@@ -24,20 +24,15 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">品牌</label>
+            <label class="layui-form-label">品牌编号</label>
             <div class="layui-input-inline">
-                <select name="brand" id="brand">
-                </select>
+                <input type="text" name="brand_id" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
             <label class="layui-form-label">model</label>
             <div class="layui-input-inline">
-                <select name="model" id="model">
-                    <option value=""></option>
-                    <option value=""></option>
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>
+                <input type="text" name="model" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
+
         </div>
 
         <div class="layui-form-item">
@@ -45,9 +40,9 @@
             <div class="layui-input-inline">
                 <input id="color" type="text" name="color"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
-            <label class="layui-form-label">类别</label>
+            <label class="layui-form-label">类别编号</label>
             <div class="layui-input-inline">
-                <select name="category" id="category">
+                <select name="category_id" id="category_id">
                 </select>
             </div>
         </div>
@@ -74,11 +69,15 @@
             <label class="layui-form-label">汽车状态</label>
             <div class="layui-input-inline">
                 <select name="status" id="status">
+                    <option value="0">可租借</option>
+                    <option value="1">不可租借</option>
                 </select>
             </div>
             <label class="layui-form-label">上架状态</label>
             <div class="layui-input-inline">
                 <select name="useable" id="useable">
+                    <option value="0">未上架</option>
+                    <option value="1">已上架</option>
                 </select>
             </div>
         </div>
@@ -121,6 +120,48 @@
             var layer = layui.layer;
             var $ = layui.jquery;
 
+            //进入页面就应该更新选项框的数据
+            $.ajax({
+                url: '/cate.do',
+                success:function (res){
+                    if (res.code==0){
+                        var catelist= res.data;
+                        console.log(catelist);
+                        for (var i = 0; i < catelist.length; i++) {
+                            var cate = catelist[i];
+                            $("#category_id").append(`<option value="${cate.id}">${cate.name}</option>`)
+                        }
+                    }else{
+                        $("#category_id").append(`<option>暂无信息</option>`)
+                    }
+                    //数据变化重新渲染表单
+                    form.render();
+                }
+
+            })
+            //监听提交表单
+            form.on('submit(demo1)',function (data){
+                console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                var carData =data.field;
+                //
+                delete carData.file;
+                $.ajax({
+                    url:'/addCar.do',
+                    data:{
+                        car:JSON.stringify(carData)
+                    },
+                    success:function (res){
+                        if (res.code==0){
+                            layer.msg(res.msg);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }else {
+                            layer.msg(res.msg);
+                        }
+                    }
+                })
+                return false;//阻止表单跳转
+            });
 
             //进入页面就要查询所有的部门信息
             // $.ajax({
