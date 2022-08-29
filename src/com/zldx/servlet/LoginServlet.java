@@ -50,7 +50,6 @@ public class LoginServlet extends HttpServlet {
 
         //3、做出响应
         String json = JSONUtils.objToString(loginData);
-        assert json != null;
         resp.getWriter().write(json);
 
 

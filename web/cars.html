@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+<button class="layui-btn layui-btn-sm" id="searchBtn">搜索</button>
 <table id="demo" lay-filter="test"></table>
 </body>
 <!--表格行事件-->
@@ -92,32 +93,35 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('确定删除吗？', function (index) {
                     //发送Ajax异步请求
-                    /*
-                        $.ajax({
-                            url:'删除.do',
-                            data:{
-                                empno:data.empno
-                            },
-                            success:function(res){
-                                if(res == 0){
-                                    obj.del(); // 删除对应行（tr）的 DOM 结构，并更新缓存
-                                }
-                                layer.msg(res.msg);
+                    $.ajax({
+                        url:'/',
+                        data:{
+                            id:data.id
+                        },
+                        success:function (res){
+                            if(res ==0){
+                                obj.del();
                             }
-                        })
-                        layer.close(index);
-                    */
+                            layer.msg(res.msg);
+                        }
+                    })
+                    layer.close(index);
+
                 });
             } else if (layEvent === 'edit') { //编辑
                 //1、将empno传递到下一个页面   sessionStorage localStorage  cookie
+                sessionStorage.setItem("id",data.id);
                 //2、通过弹出层显示修改页面。
                 layer.open({
                     type: 2,
                     area: ['600px', '500px'],
-                    content: 'empEdit.html',
+                    content: 'carEdit.html',
+                    end:function (){//3、监听弹出层关闭(重载表格数据)
+                        //重载表格数据
+                        table.reload('demo');
+                    }
 
                 })
-                //3、监听弹出层关闭(重载表格数据)
             }
         });
 
@@ -126,6 +130,7 @@
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             console.log(checkStatus);
+            var carList = checkStatus.data;
             switch (obj.event) {
                 case 'add':
                     layer.open({
@@ -141,14 +146,43 @@
                     })
                     break;
                 case 'delete':
-                    layer.msg('删除');
+                    if (carList.length==0){
+                        layer.msg("至少选择一项");
+                    }else {
+                        $ajax({
+                            url:'/delAll.do',
+                            data:{
+                                car:JSON.stringify(carList)
+                            },
+                            success:function (res) {
+                                if(res.code==0){
+                                    //重载表格
+                                    table.reload('demo');
+                                }
+                                layer.msg(res.msg);
+
+                            }
+                        })
+                    }
                     break;
-                case 'update':
-                    layer.msg('编辑');
-                    break;
+
             }
             ;
         });
+        //监听搜索按钮
+        $("#searchBtn").click(function(){
+            if(!$("#searchName").val().trim()){
+                layer.msg("搜索内容不能为空")
+                return;
+            }
+            //重载表格
+            table.reload('demo', {
+                url: '/carSearch.do'
+                ,where: {
+                    searchName:$("#searchName").val().trim()
+                } //设定异步数据接口的额外参数
+            });
+        })
 
     })
 </script>
